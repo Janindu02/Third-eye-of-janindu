@@ -1,4 +1,4 @@
-# Third-eye-of-janindu
+# Photography
 Third Eye of Janindu - Official Photography Website
 
 Welcome to Third Eye of Janindu, the official photography portfolio showcasing the artistic vision and creative expertise of Janindu Amaraweera. Whether you are looking to capture the essence of special moments, enhance your brand through stunning visuals, or create timeless memories, this website serves as a platform to explore a wide range of photographic services offered by a passionate photographer.
