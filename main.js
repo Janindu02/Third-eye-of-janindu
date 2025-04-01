@@ -1,3 +1,33 @@
+// Theme Toggle Functionality
+const themeToggle = document.getElementById('theme-toggle');
+const icon = themeToggle.querySelector('i');
+
+// Check for saved theme preference, otherwise use default light theme
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+// Force the correct icon on page load
+function updateIcon(theme) {
+  if (theme === 'light') {
+    icon.className = 'ri-moon-line'; // Moon icon for light mode
+  } else {
+    icon.className = 'ri-sun-line'; // Sun icon for dark mode
+  }
+}
+
+// Initialize with correct icon
+updateIcon(savedTheme);
+
+// Toggle theme when button is clicked
+themeToggle.addEventListener('click', () => {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateIcon(newTheme);
+});
+
 const menuBtn = document.getElementById("menu-btn");
 const navLinks = document.getElementById("nav-links");
 const menuBtnIcon = menuBtn.querySelector("i");
@@ -73,7 +103,7 @@ ScrollReveal().reveal(".contact__image img", {
 });
 
 // Initialize EmailJS
-emailjs.init("YOUR_USER_ID"); // Replace YOUR_USER_ID with your EmailJS User ID
+emailjs.init("GGQOarwI_aXrNWlNv"); // EmailJS public key
 
 const contactForm = document.getElementById("contact-form");
 
@@ -82,7 +112,7 @@ contactForm.addEventListener("submit", (e) => {
 
   // Send form data using EmailJS
   emailjs
-    .sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", "#contact-form")
+    .sendForm("service_pxdrsbj", "template_q8jx5ao", "#contact-form", "GGQOarwI_aXrNWlNv")
     .then(
       (response) => {
         alert("Message sent successfully!");
