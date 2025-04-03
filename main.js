@@ -104,46 +104,94 @@ ScrollReveal().reveal(".contact__image img", {
 
 const contactForm = document.getElementById("contact-form");
 
-contactForm.addEventListener("submit", function(e) {
-  // Don't prevent default here - let it submit to the hidden iframe
-  
-  const submitButton = contactForm.querySelector("button[type='submit']");
-  if (submitButton) {
-    submitButton.innerText = "SENDING...";
-    submitButton.disabled = true;
-  }
-  
-  // Remove any existing success messages first
-  const existingMessage = document.querySelector(".success-message");
-  if (existingMessage) {
-    existingMessage.remove();
-  }
-  
-  // Create a success message element
-  const successMessage = document.createElement("div");
-  successMessage.className = "success-message";
-  successMessage.innerHTML = "<p>Your message has been successfully submitted!</p>";
-  
-  // Short delay to simulate submission (form is actually submitting to the hidden iframe)
-  setTimeout(() => {
-    // Insert the message after the form
-    contactForm.parentNode.insertBefore(successMessage, contactForm.nextSibling);
+if (contactForm) {
+  // Add event listener immediately when the page loads
+  contactForm.addEventListener("submit", function(e) {
+    // CRITICAL: This must be the first line to ensure the redirect is prevented
+    e.preventDefault();
     
-    // Reset the form
-    contactForm.reset();
-    
-    // Reset button
+    const submitButton = contactForm.querySelector("button[type='submit']");
     if (submitButton) {
-      submitButton.innerText = "SEND IT";
-      submitButton.disabled = false;
+      submitButton.innerText = "SENDING...";
+      submitButton.disabled = true;
     }
     
-    // Remove the success message after 5 seconds
-    setTimeout(() => {
-      successMessage.style.opacity = "0";
-      successMessage.style.transition = "opacity 0.5s ease";
-      setTimeout(() => successMessage.remove(), 500);
-    }, 5000);
-  }, 1000);
-});
+    // Remove any existing success messages first
+    const existingMessage = document.querySelector(".success-message");
+    if (existingMessage) {
+      existingMessage.remove();
+    }
+    
+    // Collect form data
+    const formData = new FormData(contactForm);
+    
+    // Submit to Formspree using fetch API
+    fetch(contactForm.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+      // Create a success message element
+      const successMessage = document.createElement("div");
+      successMessage.className = "success-message";
+      successMessage.innerHTML = "<p>Thank you! Your message has been successfully sent.</p>";
+      
+      // Insert the message after the form
+      contactForm.parentNode.insertBefore(successMessage, contactForm.nextSibling);
+      
+      // Reset the form
+      contactForm.reset();
+      
+      // Reset button
+      if (submitButton) {
+        submitButton.innerText = "SEND IT";
+        submitButton.disabled = false;
+      }
+      
+      // Remove the success message after 5 seconds
+      setTimeout(() => {
+        successMessage.style.opacity = "0";
+        successMessage.style.transition = "opacity 0.5s ease";
+        setTimeout(() => successMessage.remove(), 500);
+      }, 5000);
+    })
+    .catch(error => {
+      // Handle errors
+      console.error('Error:', error);
+      
+      // Create an error message
+      const errorMessage = document.createElement("div");
+      errorMessage.className = "error-message";
+      errorMessage.innerHTML = "<p>Oops! Something went wrong. Please try again later.</p>";
+      
+      // Insert the error message after the form
+      contactForm.parentNode.insertBefore(errorMessage, contactForm.nextSibling);
+      
+      // Reset button
+      if (submitButton) {
+        submitButton.innerText = "SEND IT";
+        submitButton.disabled = false;
+      }
+      
+      // Remove the error message after 5 seconds
+      setTimeout(() => {
+        errorMessage.style.opacity = "0";
+        errorMessage.style.transition = "opacity 0.5s ease";
+        setTimeout(() => errorMessage.remove(), 500);
+      }, 5000);
+    });
+    
+    // Extra safeguard to make sure it doesn't redirect
+    return false;
+  });
+}
 
