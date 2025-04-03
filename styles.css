@@ -627,3 +627,18 @@ nav {
   }
 }
 
+.success-message {
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #e6f7e6;
+  color: #2e7d32;
+  border-radius: 5px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+

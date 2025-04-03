@@ -102,19 +102,48 @@ ScrollReveal().reveal(".contact__image img", {
   ...scrollRevealOption,
 });
 
-
-
-
 const contactForm = document.getElementById("contact-form");
 
-contactForm.addEventListener("submit", (e) => {
-  
+contactForm.addEventListener("submit", function(e) {
+  // Don't prevent default here - let it submit to the hidden iframe
   
   const submitButton = contactForm.querySelector("button[type='submit']");
   if (submitButton) {
     submitButton.innerText = "SENDING...";
+    submitButton.disabled = true;
   }
   
+  // Remove any existing success messages first
+  const existingMessage = document.querySelector(".success-message");
+  if (existingMessage) {
+    existingMessage.remove();
+  }
   
+  // Create a success message element
+  const successMessage = document.createElement("div");
+  successMessage.className = "success-message";
+  successMessage.innerHTML = "<p>Your message has been successfully submitted!</p>";
+  
+  // Short delay to simulate submission (form is actually submitting to the hidden iframe)
+  setTimeout(() => {
+    // Insert the message after the form
+    contactForm.parentNode.insertBefore(successMessage, contactForm.nextSibling);
+    
+    // Reset the form
+    contactForm.reset();
+    
+    // Reset button
+    if (submitButton) {
+      submitButton.innerText = "SEND IT";
+      submitButton.disabled = false;
+    }
+    
+    // Remove the success message after 5 seconds
+    setTimeout(() => {
+      successMessage.style.opacity = "0";
+      successMessage.style.transition = "opacity 0.5s ease";
+      setTimeout(() => successMessage.remove(), 500);
+    }, 5000);
+  }, 1000);
 });
 
