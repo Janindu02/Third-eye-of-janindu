@@ -193,14 +193,14 @@
           </ul>
         </div>
         
-          <form id="contact-form">
-            <div class="input__row">
-              <input type="text" name="user_name" placeholder="Your Name" required />
-              <input type="email" name="user_email" placeholder="Your Email" required />
-            </div>
-            <input type="text" placeholder="Your Message" />
-            <button class="btn" type="submit">SEND IT</button>
-          </form>
+        <form id="contact-form" action="https://formspree.io/f/mwplrqqy" method="POST">
+          <div class="input__row">
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
+          </div>
+          <input type="text" name="message" placeholder="Your Message" required />
+          <button class="btn" type="submit">SEND IT</button>
+        </form>
         </div>
         <div class="contact__image">
           <img src="assets/janinducontact.png" alt="contact" />

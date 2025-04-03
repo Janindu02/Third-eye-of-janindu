@@ -102,27 +102,19 @@ ScrollReveal().reveal(".contact__image img", {
   ...scrollRevealOption,
 });
 
-// Initialize EmailJS
-emailjs.init("GGQOarwI_aXrNWlNv"); // EmailJS public key
+
+
 
 const contactForm = document.getElementById("contact-form");
 
 contactForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  // Send form data using EmailJS
-  emailjs
-    .sendForm("service_pxdrsbj", "template_q8jx5ao", "#contact-form", "GGQOarwI_aXrNWlNv")
-    .then(
-      (response) => {
-        alert("Message sent successfully!");
-        contactForm.reset();
-      },
-      (error) => {
-        alert("Failed to send message. Please try again later.");
-        console.error("EmailJS Error:", error);
-      }
-    );
+  
+  
+  const submitButton = contactForm.querySelector("button[type='submit']");
+  if (submitButton) {
+    submitButton.innerText = "SENDING...";
+  }
+  
+  
 });
-
 
