@@ -1,4 +1,4 @@
-// Theme Toggle Functionality
+// Remove the theme toggle functionality
 const themeToggle = document.getElementById('theme-toggle');
 const icon = themeToggle.querySelector('i');
 
